@@ -11,11 +11,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.carelink.data.model.UserRole
+import com.carelink.ui.auth.LoginScreen
+import com.carelink.ui.auth.RegisterScreen
 import com.carelink.util.SessionManager
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Route constants — centralised so we never type raw strings in navigate() calls
-// ─────────────────────────────────────────────────────────────────────────────
 object Routes {
     const val LOGIN          = "login"
     const val REGISTER       = "register"
@@ -37,9 +36,6 @@ object Routes {
     fun reviewDetail(requestId: Int)  = "review_detail/$requestId"
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// getRoleHome — maps a user role to their home screen route
-// ─────────────────────────────────────────────────────────────────────────────
 fun getRoleHome(role: String): String = when (role) {
     UserRole.COORDINATOR -> Routes.COORD_INBOX
     UserRole.WORKER      -> Routes.WORKER_VISITS
@@ -47,9 +43,6 @@ fun getRoleHome(role: String): String = when (role) {
     else                 -> Routes.RESIDENT_HOME
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PlaceholderScreen — temporary stand-in while we build each real screen
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 fun PlaceholderScreen(name: String) {
     Box(
@@ -60,10 +53,6 @@ fun PlaceholderScreen(name: String) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// AppNavGraph — single NavHost for the entire app
-// Start destination is decided by session state from SharedPreferences
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 fun AppNavGraph(navController: NavHostController) {
     val context = LocalContext.current
@@ -79,8 +68,11 @@ fun AppNavGraph(navController: NavHostController) {
         navController    = navController,
         startDestination = startDestination
     ) {
-        composable(Routes.LOGIN)          { PlaceholderScreen("Login Screen") }
-        composable(Routes.REGISTER)       { PlaceholderScreen("Register Screen") }
+        // ── Auth screens — now real, not placeholders ──────────────────
+        composable(Routes.LOGIN)    { LoginScreen(navController) }
+        composable(Routes.REGISTER) { RegisterScreen(navController) }
+
+        // ── Remaining screens — still placeholders for now ─────────────
         composable(Routes.RESIDENT_HOME)  { PlaceholderScreen("Resident Home") }
         composable(Routes.NEW_REQUEST)    { PlaceholderScreen("New Request") }
         composable(Routes.REQUEST_DETAIL) { PlaceholderScreen("Request Detail") }
