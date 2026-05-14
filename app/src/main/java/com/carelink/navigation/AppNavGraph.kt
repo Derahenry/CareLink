@@ -14,6 +14,7 @@ import com.carelink.data.model.UserRole
 import com.carelink.ui.auth.LoginScreen
 import com.carelink.ui.auth.RegisterScreen
 import com.carelink.util.SessionManager
+import com.carelink.ui.coordinator.CoordInboxScreen
 
 object Routes {
     const val LOGIN          = "login"
@@ -76,7 +77,7 @@ fun AppNavGraph(navController: NavHostController) {
         composable(Routes.RESIDENT_HOME)  { PlaceholderScreen("Resident Home") }
         composable(Routes.NEW_REQUEST)    { PlaceholderScreen("New Request") }
         composable(Routes.REQUEST_DETAIL) { PlaceholderScreen("Request Detail") }
-        composable(Routes.COORD_INBOX)    { PlaceholderScreen("Coordinator Inbox") }
+        composable(Routes.COORD_INBOX) { CoordInboxScreen(navController) }
         composable(Routes.ASSIGN_SCREEN)  { PlaceholderScreen("Assign Screen") }
         composable(Routes.OVERDUE_QUEUE)  { PlaceholderScreen("Overdue Queue") }
         composable(Routes.WORKER_VISITS)  { PlaceholderScreen("Worker Visits") }
