@@ -17,6 +17,7 @@ import com.carelink.util.SessionManager
 import com.carelink.ui.coordinator.CoordInboxScreen
 import com.carelink.ui.resident.ResidentHomeScreen
 import com.carelink.ui.resident.NewRequestScreen
+import com.carelink.ui.coordinator.AssignScreen
 
 object Routes {
     const val LOGIN          = "login"
@@ -80,7 +81,10 @@ fun AppNavGraph(navController: NavHostController) {
         composable(Routes.NEW_REQUEST)   { NewRequestScreen(navController) }
         composable(Routes.REQUEST_DETAIL) { PlaceholderScreen("Request Detail") }
         composable(Routes.COORD_INBOX) { CoordInboxScreen(navController) }
-        composable(Routes.ASSIGN_SCREEN)  { PlaceholderScreen("Assign Screen") }
+        composable(Routes.ASSIGN_SCREEN) { backStackEntry ->
+            val requestId = backStackEntry.arguments?.getString("requestId")?.toIntOrNull() ?: 0
+            AssignScreen(navController = navController, requestId = requestId)
+        }
         composable(Routes.OVERDUE_QUEUE)  { PlaceholderScreen("Overdue Queue") }
         composable(Routes.WORKER_VISITS)  { PlaceholderScreen("Worker Visits") }
         composable(Routes.COMPLETE_VISIT) { PlaceholderScreen("Complete Visit") }
