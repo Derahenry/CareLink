@@ -21,6 +21,7 @@ import com.carelink.navigation.Routes
 import com.carelink.util.DeadlineUtils
 import com.carelink.util.SessionManager
 import com.carelink.viewmodel.RequestViewModel
+import com.carelink.ui.theme.ThemeManager
 
 @Composable
 fun CoordInboxScreen(navController: NavHostController) {
@@ -67,7 +68,16 @@ fun CoordInboxScreen(navController: NavHostController) {
                     navController.navigate(Routes.LOGIN) {
                         popUpTo(0) { inclusive = true }
                     }
-                }) {
+                })
+
+                {
+                    // Dark mode toggle (additional feature E)
+                    IconButton(onClick = { ThemeManager.isDarkMode = !ThemeManager.isDarkMode }) {
+                        Text(
+                            text     = if (ThemeManager.isDarkMode) "☀️" else "🌙",
+                            fontSize = 16.sp
+                        )
+                    }
                     Text("Logout", color = Color.White)
                 }
             }
