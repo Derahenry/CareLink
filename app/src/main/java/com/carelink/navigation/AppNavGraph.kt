@@ -13,11 +13,15 @@ import androidx.navigation.compose.composable
 import com.carelink.data.model.UserRole
 import com.carelink.ui.auth.LoginScreen
 import com.carelink.ui.auth.RegisterScreen
-import com.carelink.util.SessionManager
-import com.carelink.ui.coordinator.CoordInboxScreen
-import com.carelink.ui.resident.ResidentHomeScreen
-import com.carelink.ui.resident.NewRequestScreen
 import com.carelink.ui.coordinator.AssignScreen
+import com.carelink.ui.coordinator.CoordInboxScreen
+import com.carelink.ui.resident.NewRequestScreen
+import com.carelink.ui.resident.ResidentHomeScreen
+import com.carelink.ui.worker.CompleteVisitScreen
+import com.carelink.ui.worker.WorkerVisitScreen
+import com.carelink.util.SessionManager
+import com.carelink.ui.reviewer.ReviewQueueScreen
+import com.carelink.ui.reviewer.ReviewDetailScreen
 
 object Routes {
     const val LOGIN          = "login"
@@ -72,24 +76,31 @@ fun AppNavGraph(navController: NavHostController) {
         navController    = navController,
         startDestination = startDestination
     ) {
-        // ── Auth screens — now real, not placeholders ──────────────────
         composable(Routes.LOGIN)    { LoginScreen(navController) }
         composable(Routes.REGISTER) { RegisterScreen(navController) }
 
-        // ── Remaining screens — still placeholders for now ─────────────
         composable(Routes.RESIDENT_HOME) { ResidentHomeScreen(navController) }
         composable(Routes.NEW_REQUEST)   { NewRequestScreen(navController) }
         composable(Routes.REQUEST_DETAIL) { PlaceholderScreen("Request Detail") }
+
         composable(Routes.COORD_INBOX) { CoordInboxScreen(navController) }
         composable(Routes.ASSIGN_SCREEN) { backStackEntry ->
             val requestId = backStackEntry.arguments?.getString("requestId")?.toIntOrNull() ?: 0
             AssignScreen(navController = navController, requestId = requestId)
         }
-        composable(Routes.OVERDUE_QUEUE)  { PlaceholderScreen("Overdue Queue") }
-        composable(Routes.WORKER_VISITS)  { PlaceholderScreen("Worker Visits") }
-        composable(Routes.COMPLETE_VISIT) { PlaceholderScreen("Complete Visit") }
-        composable(Routes.REVIEW_QUEUE)   { PlaceholderScreen("Review Queue") }
-        composable(Routes.REVIEW_DETAIL)  { PlaceholderScreen("Review Detail") }
-        composable(Routes.AUDIT_LOG)      { PlaceholderScreen("Audit Log") }
+        composable(Routes.OVERDUE_QUEUE) { PlaceholderScreen("Overdue Queue") }
+
+        composable(Routes.WORKER_VISITS) { WorkerVisitScreen(navController) }
+        composable(Routes.COMPLETE_VISIT) { backStackEntry ->
+            val requestId = backStackEntry.arguments?.getString("requestId")?.toIntOrNull() ?: 0
+            CompleteVisitScreen(navController = navController, requestId = requestId)
+        }
+
+        composable(Routes.REVIEW_QUEUE) { ReviewQueueScreen(navController) }
+        composable(Routes.REVIEW_DETAIL) { backStackEntry ->
+            val requestId = backStackEntry.arguments?.getString("requestId")?.toIntOrNull() ?: 0
+            ReviewDetailScreen(navController = navController, requestId = requestId)
+        }
+        composable(Routes.AUDIT_LOG)     { PlaceholderScreen("Audit Log") }
     }
 }

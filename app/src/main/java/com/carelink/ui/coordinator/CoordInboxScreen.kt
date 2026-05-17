@@ -28,10 +28,7 @@ fun CoordInboxScreen(navController: NavHostController) {
     val context = LocalContext.current
     val session = SessionManager(context)
 
-    // Load requests when screen first appears
     LaunchedEffect(Unit) { viewModel.loadAllRequests() }
-
-    // Reload when filters change
     LaunchedEffect(viewModel.statusFilter, viewModel.priorityFilter) {
         viewModel.loadAllRequests()
     }
@@ -43,7 +40,8 @@ fun CoordInboxScreen(navController: NavHostController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(16.dp),
+                .statusBarsPadding()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment     = Alignment.CenterVertically
         ) {
@@ -60,9 +58,18 @@ fun CoordInboxScreen(navController: NavHostController) {
                     fontSize = 13.sp
                 )
             }
-            // Overdue queue button (additional feature B)
-            TextButton(onClick = { navController.navigate(Routes.OVERDUE_QUEUE) }) {
-                Text("Overdue", color = Color.White)
+            Row {
+                TextButton(onClick = { navController.navigate(Routes.OVERDUE_QUEUE) }) {
+                    Text("Overdue", color = Color.White)
+                }
+                TextButton(onClick = {
+                    SessionManager(context).clearSession()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }) {
+                    Text("Logout", color = Color.White)
+                }
             }
         }
 
@@ -73,7 +80,6 @@ fun CoordInboxScreen(navController: NavHostController) {
                 .padding(horizontal = 12.dp, vertical = 8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Status filter chips
             listOf("ALL", "SUBMITTED", "UNDER_REVIEW", "ASSIGNED").forEach { status ->
                 FilterChip(
                     selected = viewModel.statusFilter == status,
@@ -96,13 +102,13 @@ fun CoordInboxScreen(navController: NavHostController) {
             }
         }
 
-        Divider(modifier = Modifier.padding(vertical = 4.dp))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
 
         // ── Request list ──────────────────────────────────────────────────
         if (viewModel.requests.isEmpty()) {
             Box(
-                modifier          = Modifier.fillMaxSize(),
-                contentAlignment  = Alignment.Center
+                modifier         = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     text  = "No requests found",
@@ -117,8 +123,8 @@ fun CoordInboxScreen(navController: NavHostController) {
             ) {
                 items(viewModel.requests) { request ->
                     RequestCard(
-                        request     = request,
-                        onClick     = {
+                        request = request,
+                        onClick = {
                             navController.navigate(Routes.assignScreen(request.id))
                         }
                     )
@@ -128,12 +134,9 @@ fun CoordInboxScreen(navController: NavHostController) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// RequestCard — reusable card composable for each request in the list
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 fun RequestCard(request: WelfareRequest, onClick: () -> Unit) {
-    val isOverdue  = DeadlineUtils.isOverdue(request.deadlineTs)
+    val isOverdue     = DeadlineUtils.isOverdue(request.deadlineTs)
     val deadlineLabel = DeadlineUtils.getDeadlineLabel(request.deadlineTs)
 
     Card(
@@ -148,22 +151,18 @@ fun RequestCard(request: WelfareRequest, onClick: () -> Unit) {
         )
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
-
             Row(
                 modifier              = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment     = Alignment.CenterVertically
             ) {
-                // Priority badge
                 if (request.priority.isNotEmpty()) {
                     PriorityBadge(priority = request.priority)
                 }
-
-                // Deadline label
                 Text(
-                    text     = deadlineLabel,
-                    fontSize = 12.sp,
-                    color    = if (isOverdue)
+                    text       = deadlineLabel,
+                    fontSize   = 12.sp,
+                    color      = if (isOverdue)
                         MaterialTheme.colorScheme.error
                     else
                         MaterialTheme.colorScheme.onSurfaceVariant,
@@ -178,7 +177,6 @@ fun RequestCard(request: WelfareRequest, onClick: () -> Unit) {
                 fontWeight = FontWeight.SemiBold,
                 fontSize   = 15.sp
             )
-
             Text(
                 text     = request.address,
                 fontSize = 13.sp,
@@ -202,9 +200,6 @@ fun RequestCard(request: WelfareRequest, onClick: () -> Unit) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PriorityBadge — coloured badge showing HIGH / MEDIUM / LOW
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 fun PriorityBadge(priority: String) {
     val color = when (priority) {
@@ -212,10 +207,7 @@ fun PriorityBadge(priority: String) {
         "MEDIUM" -> Color(0xFFF57C00)
         else     -> Color(0xFF388E3C)
     }
-    Surface(
-        color  = color,
-        shape  = MaterialTheme.shapes.small
-    ) {
+    Surface(color = color, shape = MaterialTheme.shapes.small) {
         Text(
             text     = priority,
             color    = Color.White,
@@ -225,9 +217,6 @@ fun PriorityBadge(priority: String) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// StatusBadge — shows the current request status
-// ─────────────────────────────────────────────────────────────────────────────
 @Composable
 fun StatusBadge(status: String) {
     val color = when (status) {
