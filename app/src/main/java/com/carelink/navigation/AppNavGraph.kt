@@ -22,6 +22,7 @@ import com.carelink.ui.worker.WorkerVisitScreen
 import com.carelink.util.SessionManager
 import com.carelink.ui.reviewer.ReviewQueueScreen
 import com.carelink.ui.reviewer.ReviewDetailScreen
+import com.carelink.ui.coordinator.OverdueQueueScreen
 
 object Routes {
     const val LOGIN          = "login"
@@ -88,7 +89,7 @@ fun AppNavGraph(navController: NavHostController) {
             val requestId = backStackEntry.arguments?.getString("requestId")?.toIntOrNull() ?: 0
             AssignScreen(navController = navController, requestId = requestId)
         }
-        composable(Routes.OVERDUE_QUEUE) { PlaceholderScreen("Overdue Queue") }
+        composable(Routes.OVERDUE_QUEUE) { OverdueQueueScreen(navController) }
 
         composable(Routes.WORKER_VISITS) { WorkerVisitScreen(navController) }
         composable(Routes.COMPLETE_VISIT) { backStackEntry ->
