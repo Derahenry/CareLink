@@ -23,6 +23,7 @@ import com.carelink.util.SessionManager
 import com.carelink.ui.reviewer.ReviewQueueScreen
 import com.carelink.ui.reviewer.ReviewDetailScreen
 import com.carelink.ui.coordinator.OverdueQueueScreen
+import com.carelink.ui.resident.RequestDetailScreen
 
 object Routes {
     const val LOGIN          = "login"
@@ -82,7 +83,10 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(Routes.RESIDENT_HOME) { ResidentHomeScreen(navController) }
         composable(Routes.NEW_REQUEST)   { NewRequestScreen(navController) }
-        composable(Routes.REQUEST_DETAIL) { PlaceholderScreen("Request Detail") }
+        composable(Routes.REQUEST_DETAIL) { backStackEntry ->
+            val requestId = backStackEntry.arguments?.getString("requestId")?.toIntOrNull() ?: 0
+            RequestDetailScreen(navController = navController, requestId = requestId)
+        }
 
         composable(Routes.COORD_INBOX) { CoordInboxScreen(navController) }
         composable(Routes.ASSIGN_SCREEN) { backStackEntry ->

@@ -36,12 +36,13 @@ fun LoginScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .statusBarsPadding()
             .padding(horizontal = 24.dp),
         verticalArrangement   = Arrangement.Center,
         horizontalAlignment   = Alignment.CenterHorizontally
     ) {
 
-        // ── App title ────────────────────────────────────────────────────
+        // App title
         Text(
             text       = "CareLink",
             fontSize   = 32.sp,

@@ -13,6 +13,8 @@ import com.carelink.data.model.AuditEntry
 import com.carelink.data.model.RequestStatus
 import com.carelink.data.model.WelfareRequest
 import com.carelink.util.SessionManager
+import com.carelink.data.dao.VisitDao
+import com.carelink.data.model.VisitOutcome
 
 // ─────────────────────────────────────────────────────────────────────────────
 // RequestViewModel — manages all welfare request business logic
@@ -164,6 +166,19 @@ class RequestViewModel(application: Application) : AndroidViewModel(application)
             errorMessage = "Outcome notes are required before completing a visit"
             return false
         }
+
+        val visitDao = VisitDao(db)
+        val now = System.currentTimeMillis()
+
+        // Save outcome to visit_outcomes table
+        visitDao.insert(VisitOutcome(
+            requestId   = requestId,
+            workerId    = session.getUserId(),
+            notes       = outcomeNotes,
+            completedAt = now
+        ))
+
+        // Update request status
         val success = requestDao.updateStatus(requestId, RequestStatus.VISIT_COMPLETED)
         if (success) {
             auditDao.insert(AuditEntry(
@@ -171,7 +186,7 @@ class RequestViewModel(application: Application) : AndroidViewModel(application)
                 actorId   = session.getUserId(),
                 action    = AuditAction.COMPLETED,
                 detail    = "Visit completed. Notes: $outcomeNotes",
-                timestamp = System.currentTimeMillis()
+                timestamp = now
             ))
             loadAssignedVisits()
         }
