@@ -1,4 +1,4 @@
-# CareLink 🏥
+# CareLink 
 
 > **Welfare Check-In Android Application**  
 > Northampton Council — Non-Emergency Welfare Coordination Platform
@@ -13,7 +13,7 @@
 
 ---
 
-## 📋 Overview
+##  Overview
 
 CareLink is a secure, role-based Android mobile application built for **Northampton Council** to coordinate non-emergency welfare check-ins for vulnerable residents. The application digitises the entire welfare request lifecycle — from initial submission by a resident or carer, through coordinator review and prioritisation, to field visit completion by a Community Support Worker and final safeguarding verification.
 
@@ -23,7 +23,7 @@ Before CareLink, welfare check-in coordination relied on informal paper-based pr
 
 ---
 
-## ✨ Features
+##  Features
 
 ### Core Features (Assessment Requirements)
 
@@ -58,7 +58,7 @@ Before CareLink, welfare check-in coordination relied on informal paper-based pr
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 CareLink/
@@ -130,7 +130,7 @@ Every status transition writes a timestamped entry to `audit_log`.
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -169,7 +169,7 @@ Residents and carers **self-register** via the Register screen.
 
 ---
 
-## 📱 Screens
+##  Screens
 
 | Screen | Role | Description |
 |--------|------|-------------|
@@ -188,7 +188,7 @@ Residents and carers **self-register** via the Register screen.
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Technology | Version | Purpose |
 |-----------|---------|---------|
@@ -204,7 +204,7 @@ Residents and carers **self-register** via the Register screen.
 
 ---
 
-## 🔀 Git Strategy
+##  Git Strategy
 
 ```
 main                    ← stable, always runnable
@@ -225,7 +225,7 @@ refactor: extract StatusBadge into shared composable
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 Black box testing was conducted across all 6 functional areas:
 
@@ -241,7 +241,7 @@ Black box testing was conducted across all 6 functional areas:
 
 ---
 
-## ⚠️ Known Limitations
+##  Known Limitations
 
 - Passwords stored as plain text — acceptable at module level; production implementation would use bcrypt hashing
 - No multi-device synchronisation — all data is local to the device (by design, per assessment scope)
@@ -250,7 +250,7 @@ Black box testing was conducted across all 6 functional areas:
 
 ---
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - Password hashing (bcrypt) for production security
 - Cloud backend (Firebase / REST API) for multi-device sync
@@ -261,7 +261,7 @@ Black box testing was conducted across all 6 functional areas:
 
 ---
 
-## 📚 References
+##  References
 
 - [Jetpack Compose Documentation](https://developer.android.com/jetpack/compose)
 - [Navigation Compose](https://developer.android.com/jetpack/compose/navigation)
@@ -272,7 +272,7 @@ Black box testing was conducted across all 6 functional areas:
 
 ---
 
-## 👤 Author
+##  Author
 
 **Chidera Nwokolo**  
 University of Northampton — BSc Computer Science  
