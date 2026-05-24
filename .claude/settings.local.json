@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo *)",
+      "PowerShell(gh repo view Derahenry/CareLink 2>&1)",
+      "WebFetch(domain:github.com)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\derah\\\\AndroidStudioProjects\\\\CareLink\" -Recurse -Force)",
+      "Bash(Select-Object FullName)",
+      "Bash(Head -100)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; cd C:\\\\Users\\\\derah\\\\AndroidStudioProjects\\\\CareLink; .\\\\gradlew.bat assembleDebug 2>&1 | Select-String -Pattern \"error:|warning:|BUILD|FAILED|SUCCESS|Download\" | Select-Object -First 50)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; $env:PATH = \"$env:JAVA_HOME\\\\bin;$env:PATH\"; cd C:\\\\Users\\\\derah\\\\AndroidStudioProjects\\\\CareLink; .\\\\gradlew.bat assembleDebug 2>&1 | Select-String -Pattern \"error:|BUILD|FAILED|SUCCESS\" | Select-Object -First 40)",
+      "WebFetch(domain:maven.google.com)",
+      "WebFetch(domain:dl.google.com)",
+      "WebFetch(domain:search.maven.org)",
+      "WebFetch(domain:mvnrepository.com)",
+      "Bash(git restore *)",
+      "Bash(git clean *)"
+    ]
+  }
+}

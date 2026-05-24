@@ -23,6 +23,8 @@ import com.carelink.util.DeadlineUtils
 import com.carelink.util.SessionManager
 import com.carelink.viewmodel.AuthViewModel
 import com.carelink.viewmodel.RequestViewModel
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
 
 @Composable
 fun WorkerVisitScreen(navController: NavHostController) {
@@ -39,34 +41,49 @@ fun WorkerVisitScreen(navController: NavHostController) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
+                .background(MaterialTheme.colorScheme.surface)
                 .statusBarsPadding()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .padding(horizontal = 16.dp, vertical = 14.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment     = Alignment.CenterVertically
         ) {
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text       = "My Visits",
-                    color      = Color.White,
-                    fontSize   = 20.sp,
-                    fontWeight = FontWeight.Bold
+                    text          = "My Visits",
+                    fontSize      = 18.sp,
+                    fontWeight    = FontWeight.SemiBold,
+                    color         = MaterialTheme.colorScheme.onSurface,
+                    letterSpacing = (-0.2).sp
                 )
                 Text(
                     text     = "Welcome, ${session.getUserName()}",
-                    color    = Color.White.copy(alpha = 0.8f),
-                    fontSize = 13.sp
+                    fontSize = 12.5.sp,
+                    color    = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            TextButton(onClick = {
-                SessionManager(context).clearSession()
-                navController.navigate(Routes.LOGIN) {
-                    popUpTo(0) { inclusive = true }
+            Surface(
+                shape    = RoundedCornerShape(10.dp),
+                color    = MaterialTheme.colorScheme.surfaceVariant,
+                modifier = Modifier.clickable {
+                    SessionManager(context).clearSession()
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
-            }) {
-                Text("Logout", color = Color.White)
+            ) {
+                Text(
+                    text       = "Logout",
+                    fontSize   = 12.5.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color      = MaterialTheme.colorScheme.onSurface,
+                    modifier   = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
+                )
             }
         }
+        HorizontalDivider(
+            color     = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f),
+            thickness = 0.5.dp
+        )
 
         // ── Visit list ────────────────────────────────────────────────────
         if (viewModel.requests.isEmpty()) {
