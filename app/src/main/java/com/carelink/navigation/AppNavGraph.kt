@@ -24,6 +24,7 @@ import com.carelink.ui.reviewer.ReviewQueueScreen
 import com.carelink.ui.reviewer.ReviewDetailScreen
 import com.carelink.ui.coordinator.OverdueQueueScreen
 import com.carelink.ui.resident.RequestDetailScreen
+import com.carelink.ui.shared.AuditLogScreen
 
 object Routes {
     const val LOGIN          = "login"
@@ -106,6 +107,6 @@ fun AppNavGraph(navController: NavHostController) {
             val requestId = backStackEntry.arguments?.getString("requestId")?.toIntOrNull() ?: 0
             ReviewDetailScreen(navController = navController, requestId = requestId)
         }
-        composable(Routes.AUDIT_LOG)     { PlaceholderScreen("Audit Log") }
+        composable(Routes.AUDIT_LOG) { AuditLogScreen(navController) }
     }
 }

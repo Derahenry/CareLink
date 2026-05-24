@@ -99,6 +99,19 @@ fun CoordInboxScreen(navController: NavHostController) {
                         modifier   = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
                     )
                 }
+                Surface(
+                    shape    = RoundedCornerShape(10.dp),
+                    color    = MaterialTheme.colorScheme.surfaceVariant,
+                    modifier = Modifier.clickable { navController.navigate(Routes.AUDIT_LOG) }
+                ) {
+                    Text(
+                        text       = "Audit",
+                        fontSize   = 12.5.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color      = MaterialTheme.colorScheme.onSurface,
+                        modifier   = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
+                    )
+                }
 
                 // Logout button
                 Surface(

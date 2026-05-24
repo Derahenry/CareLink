@@ -26,6 +26,7 @@ import com.carelink.viewmodel.AuthViewModel
 import com.carelink.viewmodel.RequestViewModel
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
+import com.carelink.ui.theme.ThemeManager
 
 @Composable
 fun ResidentHomeScreen(navController: NavHostController) {
@@ -76,23 +77,42 @@ fun ResidentHomeScreen(navController: NavHostController) {
                         color    = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                Surface(
-                    shape    = RoundedCornerShape(10.dp),
-                    color    = MaterialTheme.colorScheme.surfaceVariant,
-                    modifier = Modifier.clickable {
-                        SessionManager(context).clearSession()
-                        navController.navigate(Routes.LOGIN) {
-                            popUpTo(0) { inclusive = true }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment     = Alignment.CenterVertically
+                ) {
+                    Surface(
+                        shape    = RoundedCornerShape(10.dp),
+                        color    = MaterialTheme.colorScheme.surfaceVariant,
+                        modifier = Modifier
+                            .size(34.dp)
+                            .clickable { ThemeManager.isDarkMode = !ThemeManager.isDarkMode }
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Text(
+                                text     = if (ThemeManager.isDarkMode) "☀" else "🌙",
+                                fontSize = 14.sp
+                            )
                         }
                     }
-                ) {
-                    Text(
-                        text       = "Logout",
-                        fontSize   = 12.5.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color      = MaterialTheme.colorScheme.onSurface,
-                        modifier   = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
-                    )
+                    Surface(
+                        shape    = RoundedCornerShape(10.dp),
+                        color    = MaterialTheme.colorScheme.surfaceVariant,
+                        modifier = Modifier.clickable {
+                            SessionManager(context).clearSession()
+                            navController.navigate(Routes.LOGIN) {
+                                popUpTo(0) { inclusive = true }
+                            }
+                        }
+                    ) {
+                        Text(
+                            text       = "Logout",
+                            fontSize   = 12.5.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color      = MaterialTheme.colorScheme.onSurface,
+                            modifier   = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
+                        )
+                    }
                 }
             }
             HorizontalDivider(
