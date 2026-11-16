@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# IDE and tool settings (machine-specific)
+/.idea/
+/.claude/
